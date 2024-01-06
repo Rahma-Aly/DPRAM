@@ -1,2 +1,2 @@
 # DPRAM
-design and verification of a synchronous dual port ram
+Design and verification (using UVM) of a synchronous dual port ram
