@@ -39,10 +39,15 @@ class coverage extends uvm_component;
 		}
 	endgroup : Data_range
 
+	covergroup RW_en();
+		RW_En: cross m_trans.read_en, m_trans.write_en; 
+	endgroup : RW_en
+
 	function new (string name = "coverage",uvm_component parent = null);
 		super.new(name,parent);
 		addr_range = new();
 		Data_range = new();
+		RW_en      = new();
 	endfunction 
 
 	function void build_phase(uvm_phase phase);
@@ -56,6 +61,7 @@ class coverage extends uvm_component;
 		m_trans = t;
 		addr_range.sample();
 		Data_range.sample();
+		RW_en.sample();
 		// `uvm_info("coverage",$sformatf("addr coverage : %0d",addr_range.get_coverage()),UVM_NONE)
 		// `uvm_info("coverage",$sformatf("data coverage : %0d",Data_range.get_coverage()),UVM_NONE)
 	endfunction 
@@ -64,6 +70,7 @@ class coverage extends uvm_component;
 		m_trans = t;
 		addr_range.sample();
 		Data_range.sample();
+		RW_en.sample();
 		// `uvm_info("coverage",$sformatf("addr coverage : %0d",addr_range.get_coverage()),UVM_NONE)
 		// `uvm_info("coverage",$sformatf("data coverage : %0d",Data_range.get_coverage()),UVM_NONE)
 	endfunction 
