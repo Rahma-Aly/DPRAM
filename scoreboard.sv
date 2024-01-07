@@ -27,17 +27,20 @@ class scoreboard extends uvm_scoreboard;
 	endfunction
 
 	virtual function void write_r (transactions t);
-
-		if (t.dataOut == mem[t.RAdddr]) begin
-			`uvm_info("scoreboard",$sformatf("test passed(Addr %0h): Read data (%0h) == expected data (%0h)",t.RAdddr,t.dataOut, mem[t.RAdddr]),UVM_NONE)
-		end
-		else begin
-			`uvm_error("scoreboard",$sformatf("test failed(Addr %0h): Read data (%0h) != expected data (%0h)",t.RAdddr,t.dataOut, mem[t.RAdddr]))
+		if (t.read_en) begin
+			if (t.dataOut == mem[t.RAdddr]) begin
+				`uvm_info("scoreboard",$sformatf("test passed(Addr %0h): Read data (%0h) == expected data (%0h)",t.RAdddr,t.dataOut, mem[t.RAdddr]),UVM_NONE)
+			end
+			else begin
+				`uvm_error("scoreboard",$sformatf("test failed(Addr %0h): Read data (%0h) != expected data (%0h)",t.RAdddr,t.dataOut, mem[t.RAdddr]))
+			end
 		end
 	endfunction
 
 	virtual function void write_w (transactions t);
-		mem[t.WAdddr] = t.dataIn;
+		if (t.write_en) begin
+			mem[t.WAdddr] = t.dataIn;
+		end
 	endfunction
 endclass : scoreboard
 
