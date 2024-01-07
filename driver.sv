@@ -28,11 +28,12 @@ class driver extends uvm_driver #(transactions);
 			@(vif.cb)
 			vif.cb.read_en  <= m_trans.read_en;
 			vif.cb.write_en <= m_trans.write_en;
-			if (vif.write_en) begin
+			if (vif.write_en  && (this.get_full_name() == "uvm_test_top.m_env.mw_agent.m_driver")) begin //?
+				// `uvm_info("driver",$sformatf("inside write condition , driver name: %0s",this.get_full_name()),UVM_NONE)
 				vif.cb.WAdddr   <= m_trans.WAdddr;
 				vif.cb.dataIn   <= m_trans.dataIn;
 			end
-			if (vif.read_en) begin
+			if (vif.read_en&& (this.get_full_name() == "uvm_test_top.m_env.mr_agent.m_driver")) begin
 				vif.cb.RAdddr   <= m_trans.RAdddr;
 			end
 			seq_item_port.item_done();
