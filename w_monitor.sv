@@ -29,15 +29,17 @@ class w_monitor extends uvm_monitor;
 		forever begin
 			@(vif.cb);
 			if (vif.rst_n) begin
-				if (vif.write_en) begin
+				//if (vif.write_en) begin
 					mw_trans = transactions::type_id::create("m_trans");
 					mw_trans.write_en = vif.write_en;
+					mw_trans.read_en  = vif.read_en;
+					mw_trans.RAdddr   = vif.RAdddr;
 					mw_trans.WAdddr   = vif.WAdddr;
 					mw_trans.dataIn   = vif.dataIn;
 
 					m_analysis_port.write(mw_trans);
 					`uvm_info("monitor", $sformatf("transaction: ",mw_trans.convert2string()),UVM_HIGH)
-				end
+				//end
 			end
 		end
 	endtask : run_phase
